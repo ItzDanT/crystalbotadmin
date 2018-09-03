@@ -156,8 +156,8 @@ client.on('message', message => {
 });
 
 
-var prefix = "-"
 client.on('message', message => {
+	var prefix = "-"
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
 
@@ -198,8 +198,8 @@ client.on('message', message => {
  
 
  
-var prefix = "-"
 client.on('message', message => {
+	var prefix = "-"
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
 
