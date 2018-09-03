@@ -1,3 +1,10 @@
+const Discord = require("discord.js");
+const client = new Discord.Client();
+
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+});
+
 client.on('message', message => {
 var prefix = "-";
 
@@ -7,7 +14,7 @@ var prefix = "-";
     let args = message.content.split(' ').slice(1).join(' ');
 if(message.content.split(' ')[0] == prefix + 'bc') {
     if (!args[1]) {
-message.channel.send("**f!bc <message>**");
+message.channel.send("**-bc <message>**");
 return;
 }
         message.guild.members.forEach(m => {
@@ -52,7 +59,7 @@ client.on("message", message => {
   
   let command = message.content.split(" ")[0];
   
-  if (command === "f!mute") {
+  if (command === "-mute") {
         if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply("** لا يوجد لديك برمشن 'Manage Roles' **").catch(console.error);
   let user = message.mentions.users.first();
   let modlog = client.channels.find('name', 'mute-log');
@@ -88,7 +95,7 @@ return message.reply("**:white_check_mark: .. تم اعطاء العضو ميو�
   
   let command = message.content.split(" ")[0];
   
-  if (command === "f!unmute") {
+  if (command === "-unmute") {
         if (!message.member.hasPermission('MANAGE_ROLES')) return message.reply("** لا يوجد لديك برمشن 'Manage Roles' **").catch(console.error);
   let user = message.mentions.users.first();
   let modlog = client.channels.find('name', 'mute-log');
@@ -118,8 +125,9 @@ return message.reply("**:white_check_mark: .. تم فك الميوت عن الش
 
 
 client.on('message', message => {
+    var prefix = "-";
 
-       if(message.content === prefix + "f!mutechannel") {
+       if(message.content === prefix + "mutechannel") {
                            if(!message.channel.guild) return message.reply('** This command only for servers**');
 
    if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply(' **__ليس لديك صلاحيات__**');
@@ -131,7 +139,7 @@ client.on('message', message => {
               });
                 }
 //viper
-    if(message.content === prefix + "f!unmutechannel") {
+    if(message.content === prefix + "unmutechannel") {
                         if(!message.channel.guild) return message.reply('** This command only for servers**');
 
    if(!message.member.hasPermission('MANAGE_MESSAGES')) return message.reply('**__ليس لديك صلاحيات__**');
@@ -148,7 +156,7 @@ client.on('message', message => {
 });
 
 
-var prefix = "f!"
+var prefix = "-"
 client.on('message', message => {
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
@@ -190,7 +198,7 @@ client.on('message', message => {
  
 
  
-var prefix = "f!"
+var prefix = "-"
 client.on('message', message => {
   if (message.author.x5bz) return;
   if (!message.content.startsWith(prefix)) return;
@@ -231,6 +239,7 @@ client.on('message', message => {
 });
 
 client.on("message", message => {
+    var prefix = "-";
    
               var args = message.content.substring(prefix.length).split(" ");
               if (message.content.startsWith(prefix + "clear")) {
@@ -251,3 +260,239 @@ client.on("message", message => {
   
        
   });
+
+client.on('ready', function(){
+    client.user.setStatus("dnd");
+    var ms = 100000 ;
+    var setGame = [`-help Servers ${client.guilds.size} `,`-inv Users ${client.users.size}`];
+    var i = -1;
+    var j = 0;
+    setInterval(function (){
+        if( i == -1 ){
+            j = 1;
+        }
+        if( i == (setGame.length)-1 ){
+            j = -1;
+        }
+        i = i+j;
+        client.user.setGame(setGame[i],`http://www.twitch.tv/KiNg66S`);
+    }, ms);100000
+
+});
+
+const adminprefix = "-";
+const devs = ['483686172221243402','371696327005831169'];
+client.on('message', message => {
+  var argresult = message.content.split(` `).slice(1).join(' ');
+    if (!devs.includes(message.author.id)) return;
+    
+if (message.content.startsWith(adminprefix + 'setgame')) {
+  client.user.setGame(argresult);
+    message.channel.sendMessage(`**${argresult} تم تغيير بلاينق البوت إلى **`)
+} else 
+  if (message.content.startsWith(adminprefix + 'setname')) {
+client.user.setUsername(argresult).then
+    message.channel.sendMessage(`**${argresult}** : تم تغيير أسم البوت إلى`)
+return message.reply("**لا يمكنك تغيير الاسم يجب عليك الانتظآر لمدة ساعتين . **");
+} else
+  if (message.content.startsWith(adminprefix + 'setavatar')) {
+client.user.setAvatar(argresult);
+  message.channel.sendMessage(`**${argresult}** : تم تغير صورة البوت`);
+      } else     
+if (message.content.startsWith(adminprefix + 'setT')) {
+  client.user.setGame(argresult, "https://www.twitch.tv/idk");
+    message.channel.sendMessage(`**تم تغيير تويتش البوت إلى  ${argresult}**`)
+}
+});
+
+
+client.on("message", message => {
+	var prefix = "-";
+	var args = message.content.split(' ').slice(1); 
+	var msg = message.content.toLowerCase();
+	if( !message.guild ) return;
+	if( !msg.startsWith( prefix + 'role' ) ) return;
+	if(!message.member.hasPermission('MANAGE_ROLES')) return message.channel.send(' **__ليس لديك صلاحيات__**');
+	if( msg.toLowerCase().startsWith( prefix + 'roleremove' ) ){
+		if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد سحب منه الرتبة**' );
+		if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد سحبها من الشخص**' );
+		var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
+		var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
+		if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد سحبها من الشخص**' );if( message.mentions.members.first() ){
+			message.mentions.members.first().removeRole( role1 );
+			return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم سحب من **');
+		}
+		if( args[0].toLowerCase() == "all" ){
+			message.guild.members.forEach(m=>m.removeRole( role1 ))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من الكل رتبة**');
+		} else if( args[0].toLowerCase() == "bots" ){
+			message.guild.members.filter(m=>m.user.bot).forEach(m=>m.removeRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من البوتات رتبة**');
+		} else if( args[0].toLowerCase() == "humans" ){
+			message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.removeRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من البشريين رتبة**');
+		} 	
+	} else {
+		if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد اعطائها الرتبة**' );
+		if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );
+		var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
+		var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
+		if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );if( message.mentions.members.first() ){
+			message.mentions.members.first().addRole( role1 );
+			return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم اعطاء **');
+		}
+		if( args[0].toLowerCase() == "all" ){
+			message.guild.members.forEach(m=>m.addRole( role1 ))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الكل رتبة**');
+		} else if( args[0].toLowerCase() == "bots" ){
+			message.guild.members.filter(m=>m.user.bot).forEach(m=>m.addRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البوتات رتبة**');
+		} else if( args[0].toLowerCase() == "humans" ){
+			message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.addRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البشريين رتبة**');
+		} 
+	} 
+});
+
+client.on("message", message => {
+	var prefix = "+";
+	var args = message.content.split(' ').slice(1); 
+	var msg = message.content.toLowerCase();
+	if( !message.guild ) return;
+	if( !msg.startsWith( prefix + 'role' ) ) return;
+    if (message.author.id !== '483686172221243402') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
+    if(!message.author.id === '483686172221243402') return;
+	if( msg.toLowerCase().startsWith( prefix + 'roleremove' ) ){
+		if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد سحب منه الرتبة**' );
+		if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد سحبها من الشخص**' );
+		var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
+		var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
+		if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد سحبها من الشخص**' );if( message.mentions.members.first() ){
+			message.mentions.members.first().removeRole( role1 );
+			return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم سحب من **');
+		}
+		if( args[0].toLowerCase() == "all" ){
+			message.guild.members.forEach(m=>m.removeRole( role1 ))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من الكل رتبة**');
+		} else if( args[0].toLowerCase() == "bots" ){
+			message.guild.members.filter(m=>m.user.bot).forEach(m=>m.removeRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من البوتات رتبة**');
+		} else if( args[0].toLowerCase() == "humans" ){
+			message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.removeRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من البشريين رتبة**');
+		} 	
+	} else {
+		if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد اعطائها الرتبة**' );
+		if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );
+		var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
+		var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
+		if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );if( message.mentions.members.first() ){
+			message.mentions.members.first().addRole( role1 );
+			return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم اعطاء **');
+		}
+		if( args[0].toLowerCase() == "all" ){
+			message.guild.members.forEach(m=>m.addRole( role1 ))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الكل رتبة**');
+		} else if( args[0].toLowerCase() == "bots" ){
+			message.guild.members.filter(m=>m.user.bot).forEach(m=>m.addRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البوتات رتبة**');
+		} else if( args[0].toLowerCase() == "humans" ){
+			message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.addRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البشريين رتبة**');
+		} 
+	} 
+});
+
+client.on("message", message => {
+	var prefix = "<";
+	var args = message.content.split(' ').slice(1); 
+	var msg = message.content.toLowerCase();
+	if( !message.guild ) return;
+	if( !msg.startsWith( prefix + 'role' ) ) return;
+    if (message.author.id !== '371696327005831169') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
+    if(!message.author.id === '371696327005831169') return;
+	if( msg.toLowerCase().startsWith( prefix + 'roleremove' ) ){
+		if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد سحب منه الرتبة**' );
+		if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد سحبها من الشخص**' );
+		var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
+		var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
+		if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد سحبها من الشخص**' );if( message.mentions.members.first() ){
+			message.mentions.members.first().removeRole( role1 );
+			return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم سحب من **');
+		}
+		if( args[0].toLowerCase() == "all" ){
+			message.guild.members.forEach(m=>m.removeRole( role1 ))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من الكل رتبة**');
+		} else if( args[0].toLowerCase() == "bots" ){
+			message.guild.members.filter(m=>m.user.bot).forEach(m=>m.removeRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من البوتات رتبة**');
+		} else if( args[0].toLowerCase() == "humans" ){
+			message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.removeRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم سحب من البشريين رتبة**');
+		} 	
+	} else {
+		if( !args[0] ) return message.reply( '**:x: يرجى وضع الشخص المراد اعطائها الرتبة**' );
+		if( !args[1] ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );
+		var role = msg.split(' ').slice(2).join(" ").toLowerCase(); 
+		var role1 = message.guild.roles.filter( r=>r.name.toLowerCase().indexOf(role)>-1 ).first(); 
+		if( !role1 ) return message.reply( '**:x: يرجى وضع الرتبة المراد اعطائها للشخص**' );if( message.mentions.members.first() ){
+			message.mentions.members.first().addRole( role1 );
+			return message.reply('**:white_check_mark: [ '+role1.name+' ] رتبة [ '+args[0]+' ] تم اعطاء **');
+		}
+		if( args[0].toLowerCase() == "all" ){
+			message.guild.members.forEach(m=>m.addRole( role1 ))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء الكل رتبة**');
+		} else if( args[0].toLowerCase() == "bots" ){
+			message.guild.members.filter(m=>m.user.bot).forEach(m=>m.addRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البوتات رتبة**');
+		} else if( args[0].toLowerCase() == "humans" ){
+			message.guild.members.filter(m=>!m.user.bot).forEach(m=>m.addRole(role1))
+			return	message.reply('**:white_check_mark: [ '+role1.name+' ] تم اعطاء البشريين رتبة**');
+		} 
+	} 
+});
+
+
+var prefix = "+"
+client.on('message', message => {
+  if (message.author.x5bz) return;
+  if (!message.content.startsWith(prefix)) return;
+
+  let command = message.content.split(" ")[0];
+  command = command.slice(prefix.length);
+
+  let args = message.content.split(" ").slice(1);
+
+  if (command == "ban") {
+               if(!message.channel.guild) return message.reply('** This command only for servers**');
+  if (message.author.id !== '483686172221243402') return message.reply('** هذا الأمر قفط لصاحب البوت و شكراًً **')
+  if(!message.author.id === '483686172221243402') return;       
+  if(!message.guild.member(client.user).hasPermission("BAN_MEMBERS")) return message.reply("**I Don't Have ` BAN_MEMBERS ` Permission**");
+  let user = message.mentions.users.first();
+  let reason = message.content.split(" ").slice(2).join(" ");
+  /*let b5bzlog = client.channels.find("name", "5bz-log");
+
+  if(!b5bzlog) return message.reply("I've detected that this server doesn't have a 5bz-log text channel.");*/
+  if (message.mentions.users.size < 1) return message.reply("**منشن شخص**");
+  if(!reason) return message.reply ("**اكتب سبب الطرد**");
+  if (!message.guild.member(user)
+  .bannable) return message.reply("**لايمكنني طرد شخص اعلى من رتبتي يرجه اعطاء البوت رتبه عالي**");
+
+  message.guild.member(user).ban(7, user);
+
+  const banembed = new Discord.RichEmbed()
+  .setAuthor(`BANNED!`, user.displayAvatarURL)
+  .setColor("RANDOM")
+  .setTimestamp()
+  .addField("**User:**",  '**[ ' + `${user.tag}` + ' ]**')
+  .addField("**By:**", '**[ ' + `${message.author.tag}` + ' ]**')
+  .addField("**Reason:**", '**[ ' + `${reason}` + ' ]**')
+  message.channel.send({
+    embed : banembed
+  })
+}
+});
+
+
+
+client.login(process.env.BOT_TOKEN)
